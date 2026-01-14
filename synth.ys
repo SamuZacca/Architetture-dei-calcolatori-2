@@ -1,0 +1,23 @@
+# 1. Leggi il file sorgente Verilog
+read_verilog top.v
+
+# 2. Imposta il modulo top-level
+hierarchy -check -top smart_gate_controller
+
+# 3. Trasforma codice “behavioral” in RTL
+proc; opt fsm; opt
+
+# 4. Trasforma RTL in gate logici
+techmap; opt
+
+# 5. Mapping della netlist sulla libreria tecnologica
+abc -g gates; opt
+
+# 6. Esporta la netlist come Verilog
+write_verilog -attr2comment top.synth.v
+
+# 7. (Opzionale) Genera una visualizzazione del circuito (PDF)
+show -format pdf -prefix top_gates
+
+# 8. (Opzionale) Stampa un report di area e statistiche
+stat
